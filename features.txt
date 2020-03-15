@@ -1,0 +1,90 @@
+Project 2 Features
+Joshua Pritz
+
+Spotify Music Recommendation system:
+
+TL;DR
+1. Genre Selection
+2. Artist Selection
+3. Track Selection
+  a. By Artist
+  b. BY Title
+4. Write Recommendations to File
+5. Email Recommendations for User
+  a. Attach File If It Exists
+
+The user interacts with the program primarily through a Pandas      
+DataFrame from which the user selects options for seeding the       
+recommender. This DataFrame, which I refer to as the menu, also     
+records the user's, genre, artist and track inputs, while allowing  
+the user to both find recommendations and quit the program. Each    
+function in the main program serves to update the menu and a list of
+selected genres, artist IDs, or track IDs, or aids in doing so.
+
+To seed Spotify's recommendation system, I first allow the user to  
+select desired genres from the abridged list found in the spotify   
+helper module. This list is printed in a Pandas DataFrame, which    
+places 'X's in a rightmost column next to each selected genre. I    
+then prompt the user to provide a comma-delimited list of genres    
+they would like to select. I parse this selection by splitting on   
+commas and stripping each resulting string of extraneous spaces. If 
+'clear' is in the resulting list, I void the list of selected genres
+and genre cell in the menu. If the selection cannot be converted to 
+integers or does not correspond to a genre in the list, I return the
+user to the main menu. Otherwise, I update the list of selected     
+genres and display unique genres in the corresponding menu cell.
+
+I also allow the user to select artists to seed the recommender. I  
+prompt the user to enter the name of an artist. If no artists are   
+found, it returns the user to the main menu. Otherwise, I display   
+the top ten results (with their genres) in a Pandas DataFrame. The  
+user can choose artists by entering a comma-delimited list of       
+numbers which are parsed and vetted similarly to those for genre    
+selection. Here, the user is also allowed to clear current          
+selections. Given that the user's selections are valid, I display   
+the selected artists' names in the menu, and append their unique IDs
+to the list of artist IDs.
+
+Finally, I let the artist select desired tracks to seed the         
+recommender as well. The user is first prompted to choose whether to
+search for tracks by artist or by title. If the first option is     
+given, the user is then prompted to enter the name of an artist     
+whose top tracks to display. The top ten such tracks and their      
+albums are displayed in the DataFrame. If the latter option is      
+given, the user is prompted to enter the name of a track. The top   
+ten results are printed in a DataFrame with their albums. If the    
+user's search for artists or tracks returns no results, or if the   
+user makes an invalid selection from the resulting DataFrames, the  
+user is sent back to the main menu. Otherwise, unique track titles  
+and IDs are displayed in the corresponding menu cell and appended to
+the track ID list respectively. The user also has the option to     
+clear their selections at this stage.
+
+To obtain track recommendations, I employ the get_similar_tracks    
+function from the spotify helper module. To ensure that only five   
+parameters are provided, I select only the first five artists,      
+tracks and genres, in that order, to seed the recommender. I also   
+warn the user after more than five parameters are provided that the
+recommender only considers five such seeds. After I obtain the track
+data for the user's recommendations, I print them out in a DataFrame
+which displays the tracks' titles, artists and albums.
+
+I then prompt the user to write the data to an HTML file. I generate
+its content by creating a header listing their parameters, and      
+append the table using the get_formatted_tracklist_table_html       
+function found in the utilities module. The file is automatically   
+named 'Recommendations_<Date>.html'. If this name is taken, I append
+successive integers to the end of the file name until it is not     
+taken. The file is saved to the same directory that contains the    
+main program script.
+
+Finally, I prompt the user to email the recommendations. If they    
+choose to do so, I ask for their email, and then a comma-delimited  
+list of recipient emails. If the user previously opted to write the 
+results to a file, this file is attached to the email. Otherwise    
+only the HTML content is written in the email. If the email is sent 
+successfully, a message saying so is printed to the screen. If this 
+is not the case, an unsuccessful message is printed.
+
+The user is then taken back to the menu. They can clear and add new 
+parameters, or opt to quit, which exits the program entirely.
