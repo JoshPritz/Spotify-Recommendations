@@ -10,3 +10,5 @@ The user can input integers to choose options from the main menu. These include 
 After accruing as many as five genres, artists, or tracks (in total), the user can choose the penultimate option to discover new music. This prints Spotify's track recommendations to standard output. 
 
 The user also has the option to save an HTML file containing these recommendations to the program directory and/or email the recommendations to themselves or others. 
+
+The full operations of the present program are detailed in the `features.txt` file.
